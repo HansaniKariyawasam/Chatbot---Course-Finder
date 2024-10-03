@@ -8,8 +8,24 @@ intents:
   - mood_great
   - mood_unhappy
   - bot_challenge
+  - request_master_programs
+  - specify_area_of_interest
   - get_universities
   # - select_university
+
+slots:
+  area_of_interest:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_text
+  awaiting_area_of_interest:
+    type: bool
+    initial_value: false
+    mappings:
+      - type: from_intent
+        intent: specify_area_of_interest
+        value: true  # This will set the slot to true when the intent is recognized
 
 responses:
   utter_get_universities:
@@ -40,13 +56,15 @@ responses:
   utter_iamabot:
   - text: "I am a bot, powered by Rasa."
 
-# actions:
-#   - action_provide_university_details
+  utter_courses:
+  - text: "Here are the courses we offer."
 
-# slots:
-#   university:
-#     type: text
+  utter_ask_area_of_interest:
+    - text: "Please specify an area of interest (e.g., Engineering / Information Technology)."
 
+actions:
+  - action_list_courses
+  
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true

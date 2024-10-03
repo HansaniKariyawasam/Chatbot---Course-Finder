@@ -1,40 +1,46 @@
 version: "3.1"
 
 stories:
+  - story: happy path
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: mood_great
+      - action: utter_happy
 
-- story: happy path
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_great
-  - action: utter_happy
+  - story: sad path 1
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: mood_unhappy
+      - action: utter_cheer_up
+      - action: utter_did_that_help
+      - intent: affirm
+      - action: utter_happy
 
-- story: sad path 1
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: affirm
-  - action: utter_happy
+  - story: sad path 2
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: mood_unhappy
+      - action: utter_cheer_up
+      - action: utter_did_that_help
+      - intent: deny
+      - action: utter_goodbye
 
-- story: sad path 2
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: deny
-  - action: utter_goodbye
+  - story: specify area of interest
+    steps:
+      - intent: specify_area_of_interest
+      - slot_was_set: 
+          - area_of_interest: "Engineering"
+      - action: action_list_courses
 
-- story: get universities
-  steps:
-    - intent: get_universities
-    - action: utter_get_universities
+  # - story: get universities
+  #   steps:
+  #     - intent: get_universities
+  #     - action: utter_get_universities
 
-- story: university selection
-  steps:
-  - intent: select_university
-  - action: action_provide_university_details
+  # - story: university selection
+  #   steps:
+  #     - intent: select_university
+  #     - action: action_provide_university_details
