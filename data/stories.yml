@@ -28,3 +28,13 @@ stories:
   - action: utter_did_that_help
   - intent: deny
   - action: utter_goodbye
+
+- story: get universities
+  steps:
+    - intent: get_universities
+    - action: utter_get_universities
+
+- story: university selection
+  steps:
+  - intent: select_university
+  - action: action_provide_university_details

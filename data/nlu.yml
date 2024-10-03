@@ -89,3 +89,15 @@ nlu:
     - are you a human?
     - am I talking to a bot?
     - am I talking to a human?
+
+- intent: get_universities
+  examples: |
+    - Which universities offer a Master of Data Science?
+    - Tell me about universities offering Data Science courses.
+    - What schools have a Master's in Data Science?
+
+- intent: select_university
+  examples: |
+    - I want to know about [University of Melbourne](university)
+    - What about [Monash University](university)?
+    - Tell me about [RMIT University](university).

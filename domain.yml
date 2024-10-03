@@ -8,8 +8,19 @@ intents:
   - mood_great
   - mood_unhappy
   - bot_challenge
+  - get_universities
+  # - select_university
 
 responses:
+  utter_get_universities:
+    - text: |
+        Here are top universities offering a Master of Data Science:
+            1 University of Melbourne
+            2 Monash University
+            3 RMIT University
+            4 Deakin University
+            5 La Trobe University
+
   utter_greet:
   - text: "Hey! How are you?"
 
@@ -28,6 +39,13 @@ responses:
 
   utter_iamabot:
   - text: "I am a bot, powered by Rasa."
+
+# actions:
+#   - action_provide_university_details
+
+# slots:
+#   university:
+#     type: text
 
 session_config:
   session_expiration_time: 60
