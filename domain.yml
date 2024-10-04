@@ -10,8 +10,8 @@ intents:
   - bot_challenge
   - request_master_programs
   - specify_area_of_interest
-
-
+  - get_universities
+  - select_university 
 
 slots:
   area_of_interest:
@@ -26,8 +26,20 @@ slots:
       - type: from_intent
         intent: specify_area_of_interest
         value: true  # This will set the slot to true when the intent is recognized
+  program_name:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: program_name
 
 responses:
+  utter_ask_specific_program:
+    - text: "Do you have any specific program in mind from the {area_of_interest} field?"
+
+  utter_get_universities:
+    - text: "Here are the universities that offer the {program_name} program."
+
   utter_greet:
   - text: "Hey! How are you?"
 
@@ -48,16 +60,16 @@ responses:
   - text: "I am a bot, powered by Rasa."
 
   utter_courses:
-    - text: "Here are the courses we offer."
+  - text: "Here are the courses we offer."
 
   utter_ask_area_of_interest:
     - text: "Please specify an area of interest (e.g., Engineering / Information Technology)."
 
 actions:
   - action_list_courses
-
-
-
+  - action_get_universities
+  - action_get_course_details  # New action for fetching course details
+  
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true

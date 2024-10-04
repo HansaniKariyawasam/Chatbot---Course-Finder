@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lola - Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white; /* White background for the main content */
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Top blue section */
+        #header {
+            background-color: #007BFF; /* Blue background */
+            color: white;
+            padding: 20px;
+        }
+
+        #welcome-message {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        h1 {
+            margin: 20px 0 0 0; /* Margin to create space above the heading */
+            font-size: 24px;
+            text-align: center; /* Center the heading */
+        }
+
+        #chatbox {
+            width: 300px;
+            height: 400px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: white;
+            padding: 10px;
+            overflow-y: scroll;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin: 20px auto; /* Center the chatbox */
+        }
+
+        #user-input {
+            width: 240px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 5px;
+        }
+
+        #send-button {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #send-button:hover {
+            background-color: #0056b3;
+        }
+
+        .user-message {
+            color: #007BFF;
+            margin: 5px 0;
+        }
+
+        .bot-message {
+            color: #28a745;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <div id="welcome-message">Welcome To Your Support Agent</div>
+    </div>
+    <h1>Lola - Chatbot</h1>
+    <div id="chatbox"></div>
+    <div style="text-align: center;">
+        <input type="text" id="user-input" placeholder="Type a message..."/>
+        <button id="send-button">Send</button>
+    </div>
+
+    <script>
+        const chatbox = document.getElementById("chatbox");
+        const userInput = document.getElementById("user-input");
+        const sendButton = document.getElementById("send-button");
+
+        sendButton.onclick = function() {
+            const userMessage = userInput.value;
+            if (userMessage.trim() === '') return; // Prevent empty messages
+            
+            chatbox.innerHTML += `<div class="user-message">User: ${userMessage}</div>`;
+            userInput.value = '';
+
+            fetch('http://localhost:5005/webhooks/rest/webhook', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ sender: 'user', message: userMessage })
+            })
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(msg => {
+                    chatbox.innerHTML += `<div class="bot-message">Bot: ${msg.text}</div>`;
+                });
+                chatbox.scrollTop = chatbox.scrollHeight; // Scroll to the bottom
+            })
+            .catch(err => {
+                console.error('Error:', err);
+                chatbox.innerHTML += `<div class="bot-message">Bot: Sorry, there was an error.</div>`;
+                chatbox.scrollTop = chatbox.scrollHeight; // Scroll to the bottom
+            });
+        };
+    </script>
+</body>
+</html>

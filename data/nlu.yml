@@ -1,104 +1,122 @@
 version: "3.1"
 
 nlu:
-- intent: greet
-  examples: |
-    - hey
-    - hello
-    - hi
-    - hello there
-    - good morning
-    - good evening
-    - moin
-    - hey there
-    - let's go
-    - hey dude
-    - goodmorning
-    - goodevening
-    - good afternoon
+  - intent: greet
+    examples: |
+      - hey
+      - hello
+      - hi
+      - hello there
+      - good morning
+      - good evening
+      - moin
+      - hey there
+      - let's go
+      - hey dude
+      - goodmorning
+      - goodevening
+      - good afternoon
 
-- intent: goodbye
-  examples: |
-    - cu
-    - good by
-    - cee you later
-    - good night
-    - bye
-    - goodbye
-    - have a nice day
-    - see you around
-    - bye bye
-    - see you later
+  - intent: goodbye
+    examples: |
+      - cu
+      - good by
+      - see you later
+      - good night
+      - bye
+      - goodbye
+      - have a nice day
+      - see you around
+      - bye bye
+      - see you later
 
-- intent: affirm
-  examples: |
-    - yes
-    - y
-    - indeed
-    - of course
-    - that sounds good
-    - correct
+  - intent: affirm
+    examples: |
+      - yes
+      - y
+      - indeed
+      - of course
+      - that sounds good
+      - correct
 
-- intent: deny
-  examples: |
-    - no
-    - n
-    - never
-    - I don't think so
-    - don't like that
-    - no way
-    - not really
+  - intent: deny
+    examples: |
+      - no
+      - n
+      - never
+      - I don't think so
+      - don't like that
+      - no way
+      - not really
 
-- intent: mood_great
-  examples: |
-    - perfect
-    - great
-    - amazing
-    - feeling like a king
-    - wonderful
-    - I am feeling very good
-    - I am great
-    - I am amazing
-    - I am going to save the world
-    - super stoked
-    - extremely good
-    - so so perfect
-    - so good
-    - so perfect
+  - intent: mood_great
+    examples: |
+      - perfect
+      - great
+      - amazing
+      - feeling like a king
+      - wonderful
+      - I am feeling very good
+      - I am great
+      - I am amazing
+      - I am going to save the world
+      - super stoked
+      - extremely good
+      - so so perfect
+      - so good
+      - so perfect
 
-- intent: mood_unhappy
-  examples: |
-    - my day was horrible
-    - I am sad
-    - I don't feel very well
-    - I am disappointed
-    - super sad
-    - I'm so sad
-    - sad
-    - very sad
-    - unhappy
-    - not good
-    - not very good
-    - extremly sad
-    - so saad
-    - so sad
+  - intent: mood_unhappy
+    examples: |
+      - my day was horrible
+      - I am sad
+      - I don't feel very well
+      - I am disappointed
+      - super sad
+      - I'm so sad
+      - sad
+      - very sad
+      - unhappy
+      - not good
+      - not very good
+      - extremely sad
+      - so saad
+      - so sad
 
-- intent: bot_challenge
-  examples: |
-    - are you a bot?
-    - are you a human?
-    - am I talking to a bot?
-    - am I talking to a human?
+  - intent: bot_challenge
+    examples: |
+      - are you a bot?
+      - are you a human?
+      - am I talking to a bot?
+      - am I talking to a human?
 
-- intent: request_master_programs
-  examples: |
-    - What Master's programs do you offer?
-    - Tell me about the Master's courses.
-    - I'm interested in Master's degrees.
+  - intent: request_master_programs
+    examples: |
+      - What Master's programs do you offer?
+      - Tell me about the Master's courses.
+      - I'm interested in Master's degrees.
 
-- intent: specify_area_of_interest
-  examples: |
-    - I'm interested in Engineering.
-    - How about Information Technology?
-    - I want to know about the courses in Design.
+  - intent: specify_area_of_interest
+    examples: |
+      - I'm interested in Engineering.
+      - How about Information Technology?
+      - I want to know about the courses in Design.
 
+  - intent: get_universities
+    examples: |
+      - Which universities offer a Master of Data Science?
+      - Which universities offer a Master of Engineering
+      - Tell me about universities offering {program_name}.
+      - Where can I study a {program_name}?
+      - Which university provides {program_name} program?
+
+  - intent: select_university
+    examples: |
+      - Tell me about the [Master of Data Science](program_name) at [RMIT University](university_name).
+      - What are the details for the [Master of Engineering](program_name) at [Deakin University](university_name)?
+
+  - intent: get_course_details
+    examples: |
+      - I want to know about the Advanced Diploma of Engineering (Aeronautical).
+      - Tell me more about the Advanced Diploma of Engineering (Mechanical).
+      - What can you tell me about the Advanced Diploma of Electronics and Communications Engineering?

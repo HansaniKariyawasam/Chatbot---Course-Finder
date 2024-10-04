@@ -1,19 +1,32 @@
 version: "3.1"
 
 rules:
+  - rule: Say goodbye anytime the user says goodbye
+    steps:
+      - intent: goodbye
+      - action: utter_goodbye
 
-- rule: Say goodbye anytime the user says goodbye
-  steps:
-  - intent: goodbye
-  - action: utter_goodbye
+  - rule: Say 'I am a bot' anytime the user challenges
+    steps:
+      - intent: bot_challenge
+      - action: utter_iamabot
 
-- rule: Say 'I am a bot' anytime the user challenges
-  steps:
-  - intent: bot_challenge
-  - action: utter_iamabot
+  - rule: Ask for area of interest when the user asks for a course
+    steps:
+      - intent: request_master_programs
+      - action: utter_ask_area_of_interest
 
-- rule: Say to specify interest area anytimes the user asks for a course
-  steps:
-  - intent: request_master_programs
-  - action: utter_ask_area_of_interest
+  - rule: Ask for specific program after area of interest
+    steps:
+      - slot_was_set:
+          - area_of_interest: true
+      - action: utter_ask_specific_program
+
+  - rule: Set the program name after user specifies a program
+    steps:
+      - intent: get_universities
+        entities:
+          - program_name
+      - action: action_set_program_name
+      - action: action_get_universities
 

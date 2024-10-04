@@ -1,40 +1,56 @@
 version: "3.1"
 
 stories:
+  - story: happy path
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: mood_great
+      - action: utter_happy
 
-- story: happy path
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_great
-  - action: utter_happy
+  - story: sad path 1
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: mood_unhappy
+      - action: utter_cheer_up
+      - action: utter_did_that_help
+      - intent: affirm
+      - action: utter_happy
 
-- story: sad path 1
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: affirm
-  - action: utter_happy
+  - story: sad path 2
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: mood_unhappy
+      - action: utter_cheer_up
+      - action: utter_did_that_help
+      - intent: deny
+      - action: utter_goodbye
 
-- story: sad path 2
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: deny
-  - action: utter_goodbye
+  - story: specify area of interest
+    steps:
+      - intent: specify_area_of_interest
+      - slot_was_set: 
+          - area_of_interest: "Engineering"
+      - action: action_list_courses
 
-- story: specify area of interest
-  steps:
-  - intent: specify_area_of_interest
-  - slot_was_set: 
-    - area_of_interest: "Engineering"
-  - action: action_list_courses
-  
+  - story: User specifies a specific program
+    steps:
+      - intent: get_universities
+      - slot_was_set:
+          - program_name: "Master of Data Science"
+      - action: action_get_universities
+      - action: utter_ask_specific_program
 
+  - story: Get course details for selected university
+    steps:
+      - intent: select_university
+      - slot_was_set:
+          - program_name: "Master of Data Science RMIT"  # Example, this would be dynamic
+      - action: action_get_course_details  # Action to get course details about the specific program
 
+  # - story: university selection
+  #   steps:
+  #     - intent: select_university
+  #     - action: action_provide_university_details
