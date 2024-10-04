@@ -11,7 +11,7 @@ intents:
   - request_master_programs
   - specify_area_of_interest
   - get_universities
-  # - select_university
+  - select_university 
 
 slots:
   area_of_interest:
@@ -68,6 +68,7 @@ responses:
 actions:
   - action_list_courses
   - action_get_universities
+  - action_get_course_details  # New action for fetching course details
   
 session_config:
   session_expiration_time: 60

@@ -105,6 +105,8 @@ class ActionListCourses(Action):
                 response = f"Here are the courses we offer in {area_of_interest}:\n"
                 for course in courses:
                     response += f"* **{course['Program Name']}**: Location: {course['Location']} (University: {course['University']})\n"
+
+                response += f"\nDo you have any specific program in mind from the {area_of_interest} field?"
             else:
                 response = f"Sorry, no courses available in {area_of_interest}."
 
@@ -113,7 +115,6 @@ class ActionListCourses(Action):
             response = "Here are all the courses we offer:\n"
             for course in data:
                 response += f"* **{course['Program Name']}**: Location: {course['Location']} (University: {course['University']})\n"
-
         dispatcher.utter_message(text=response)
         return []
 
@@ -149,10 +150,54 @@ class ActionGetUniversities(Action):
             universities = {course['University'] for course in matching_courses}  # Get unique universities
             university_list = "\n".join([f"- {uni}" for uni in universities])
             response = f"The following universities offer the {program_name} program:\n{university_list}"
+            response += f"\nWould you like to check the course details at the selected university? Please select one university from above list"
         else:
             response = f"Sorry, no universities found for the program '{program_name}'."
 
         dispatcher.utter_message(text=response)
+        return []
+
+class ActionGetCourseDetails(Action):
+    def name(self) -> Text:
+        return "action_get_course_details"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        # Get the program name from the slot
+        program_name = tracker.get_slot('program_name')
+        university_name = tracker.get_slot('university_name')
+        
+        if not program_name:
+            dispatcher.utter_message(text="I couldn't find a valid program name.")
+            return []
+
+        # Load course data from the JSON file
+        file_path = os.path.join(os.path.dirname(__file__), 'Courses.json')  # Update to correct path
+        with open(file_path, 'r') as file:
+            courses = json.load(file)
+
+        # Search for the course details based on the program name
+        course_details = next((course for course in courses 
+                       if course["Program Name"] == program_name and 
+                          course["University"].lower() == university_name.lower()), 
+                       None)
+
+        if course_details:
+            # Format the response
+            response = (
+                f"**Program Name:** {course_details['Program Name']}\n"
+                f"**University:** {course_details['University']}\n"
+                f"**Location:** {course_details['Location']}\n"
+                f"**Program Duration:** {course_details['Program Duration Years']} years\n"
+                f"**International Tuition Fee:** ${course_details['International Tuition Fee']}\n"
+                f"**Average Credit Points Per Year:** {course_details['Average Credit Points Per Year']}\n"
+            )
+            dispatcher.utter_message(text=response)
+        else:
+            dispatcher.utter_message(text="Sorry, I couldn't find any details for that program.")
+
         return []
 
 # import json

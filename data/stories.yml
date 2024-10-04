@@ -43,6 +43,13 @@ stories:
       - action: action_get_universities
       - action: utter_ask_specific_program
 
+  - story: Get course details for selected university
+    steps:
+      - intent: select_university
+      - slot_was_set:
+          - program_name: "Master of Data Science RMIT"  # Example, this would be dynamic
+      - action: action_get_course_details  # Action to get course details about the specific program
+
   # - story: university selection
   #   steps:
   #     - intent: select_university

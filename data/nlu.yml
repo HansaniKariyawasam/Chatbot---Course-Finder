@@ -112,6 +112,11 @@ nlu:
 
   - intent: select_university
     examples: |
-      - I want to know about [University of Melbourne](university)
-      - What about [Monash University](university)?
-      - Tell me about [RMIT University](university).
+      - Tell me about the [Master of Data Science](program_name) at [RMIT University](university_name).
+      - What are the details for the [Master of Engineering](program_name) at [Deakin University](university_name)?
+
+  - intent: get_course_details
+    examples: |
+      - I want to know about the Advanced Diploma of Engineering (Aeronautical).
+      - Tell me more about the Advanced Diploma of Engineering (Mechanical).
+      - What can you tell me about the Advanced Diploma of Electronics and Communications Engineering?
