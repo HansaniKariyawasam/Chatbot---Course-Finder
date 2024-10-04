@@ -15,3 +15,18 @@ rules:
     steps:
       - intent: request_master_programs
       - action: utter_ask_area_of_interest
+
+  - rule: Ask for specific program after area of interest
+    steps:
+      - slot_was_set:
+          - area_of_interest: true
+      - action: utter_ask_specific_program
+
+  - rule: Set the program name after user specifies a program
+    steps:
+      - intent: get_universities
+        entities:
+          - program_name
+      - action: action_set_program_name
+      - action: action_get_universities
+

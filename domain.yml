@@ -26,16 +26,19 @@ slots:
       - type: from_intent
         intent: specify_area_of_interest
         value: true  # This will set the slot to true when the intent is recognized
+  program_name:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: program_name
 
 responses:
+  utter_ask_specific_program:
+    - text: "Do you have any specific program in mind from the {area_of_interest} field?"
+
   utter_get_universities:
-    - text: |
-        Here are top universities offering a Master of Data Science:
-            1 University of Melbourne
-            2 Monash University
-            3 RMIT University
-            4 Deakin University
-            5 La Trobe University
+    - text: "Here are the universities that offer the {program_name} program."
 
   utter_greet:
   - text: "Hey! How are you?"
@@ -64,6 +67,7 @@ responses:
 
 actions:
   - action_list_courses
+  - action_get_universities
   
 session_config:
   session_expiration_time: 60

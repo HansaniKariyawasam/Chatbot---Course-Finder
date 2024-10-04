@@ -35,10 +35,13 @@ stories:
           - area_of_interest: "Engineering"
       - action: action_list_courses
 
-  # - story: get universities
-  #   steps:
-  #     - intent: get_universities
-  #     - action: utter_get_universities
+  - story: User specifies a specific program
+    steps:
+      - intent: get_universities
+      - slot_was_set:
+          - program_name: "Master of Data Science"
+      - action: action_get_universities
+      - action: utter_ask_specific_program
 
   # - story: university selection
   #   steps:

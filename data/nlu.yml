@@ -105,8 +105,10 @@ nlu:
   - intent: get_universities
     examples: |
       - Which universities offer a Master of Data Science?
-      - Tell me about universities offering Data Science courses.
-      - What schools have a Master's in Data Science?
+      - Which universities offer a Master of Engineering
+      - Tell me about universities offering {program_name}.
+      - Where can I study a {program_name}?
+      - Which university provides {program_name} program?
 
   - intent: select_university
     examples: |

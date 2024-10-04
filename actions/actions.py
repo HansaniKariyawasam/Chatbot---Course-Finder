@@ -57,6 +57,7 @@
 #         return []
 
 import json
+import os
 from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
@@ -73,7 +74,8 @@ class ActionListCourses(Action):
 
         # Load the data from the JSON file
         try:
-            with open('RMIT_CourseData.json') as f:
+            file_path = os.path.join(os.path.dirname(__file__), 'RMIT_CourseData.json')
+            with open(file_path) as f:
                 data = json.load(f)
         except FileNotFoundError:
             dispatcher.utter_message(text="Course data file not found.")
@@ -114,3 +116,133 @@ class ActionListCourses(Action):
 
         dispatcher.utter_message(text=response)
         return []
+
+# New action to get university names based on program name
+class ActionGetUniversities(Action):
+
+    def name(self) -> Text:
+        return "action_get_universities"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        # Load the data from the JSON file
+        try:
+            file_path = os.path.join(os.path.dirname(__file__), 'RMIT_CourseData.json')
+            with open(file_path) as f:
+                data = json.load(f)
+        except FileNotFoundError:
+            dispatcher.utter_message(text="Course data file not found.")
+            return []
+        except json.JSONDecodeError:
+            dispatcher.utter_message(text="Error reading course data.")
+            return []
+
+        # Get the program name from the user's input
+        program_name = tracker.latest_message['text']
+
+        # Filter courses based on the specified program name
+        matching_courses = [course for course in data if course['Program Name'].lower() == program_name.lower()]
+
+        if matching_courses:
+            universities = {course['University'] for course in matching_courses}  # Get unique universities
+            university_list = "\n".join([f"- {uni}" for uni in universities])
+            response = f"The following universities offer the {program_name} program:\n{university_list}"
+        else:
+            response = f"Sorry, no universities found for the program '{program_name}'."
+
+        dispatcher.utter_message(text=response)
+        return []
+
+# import json
+# import os
+# from typing import Any, Text, Dict, List
+# from rasa_sdk import Action, Tracker
+# from rasa_sdk.executor import CollectingDispatcher
+# from rasa_sdk.events import SlotSet
+
+# class ActionListCourses(Action):
+
+#     def name(self) -> Text:
+#         return "action_list_courses"
+
+#     def run(self, dispatcher: CollectingDispatcher,
+#             tracker: Tracker,
+#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+#         # Load the data from the JSON file
+#         try:
+#             file_path = os.path.join(os.path.dirname(__file__), 'RMIT_CourseData.json')
+#             with open(file_path) as f:
+#                 data = json.load(f)
+#         except FileNotFoundError:
+#             dispatcher.utter_message(text="Course data file not found.")
+#             return []
+#         except json.JSONDecodeError:
+#             dispatcher.utter_message(text="Error reading course data.")
+#             return []
+
+#         # Get the area of interest from the slot
+#         area_of_interest = tracker.get_slot("area_of_interest")
+
+#         if area_of_interest:
+#             # Filter the courses based on the area of interest
+#             courses = [course for course in data if course['Interest Area'].lower() == area_of_interest.lower()]
+#             if courses:
+#                 response = f"Here are the programs we offer in {area_of_interest}:\n"
+#                 for course in courses:
+#                     response += f"- {course['Program Name']}\n"
+#             else:
+#                 response = f"Sorry, no programs available in {area_of_interest}."
+#         else:
+#             response = "Please specify an area of interest."
+
+#         dispatcher.utter_message(text=response)
+
+#         # After listing courses, ask if the user has a specific program in mind
+#         dispatcher.utter_message(text=f"Do you have any specific program in mind from the {area_of_interest} field?")
+        
+#         return [SlotSet("awaiting_area_of_interest", False)]  # Reset the awaiting slot
+
+# class ActionGetUniversities(Action):
+#     def name(self) -> Text:
+#         return "action_get_universities"
+
+#     def run(self, dispatcher: CollectingDispatcher,
+#             tracker: Tracker,
+#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+#         program_name = tracker.get_slot('program_name')
+#         print(program_name)
+#         # Check if the program_name is present and normalize it
+#         if program_name:
+#             program_name = program_name.strip().lower()  # Convert to lowercase and remove any extra spaces
+
+#             # Load course data from JSON file
+#             try:
+#                 file_path = os.path.join(os.path.dirname(__file__), 'RMIT_CourseData.json')
+#                 with open(file_path) as f:
+#                     data = json.load(f)
+#             except FileNotFoundError:
+#                 dispatcher.utter_message(text="Course data file not found.")
+#                 return []
+#             except json.JSONDecodeError:
+#                 dispatcher.utter_message(text="Error reading course data.")
+#                 return []
+
+#             # Search for the program in the data
+#             matched_courses = [course for course in data if course['Program Name'].strip().lower() == program_name]
+
+#             if matched_courses:
+#                 # List the universities offering the program
+#                 universities = set(course['University'] for course in matched_courses)
+#                 response = f"The following universities offer the {program_name.title()} program:\n"
+#                 response += "\n".join(f"- {university}" for university in universities)
+#             else:
+#                 response = f"Sorry, no universities found for the program '{program_name.title()}'."
+#         else:
+#             response = "Please specify a valid program."
+
+#         dispatcher.utter_message(text=response)
+#         return []
